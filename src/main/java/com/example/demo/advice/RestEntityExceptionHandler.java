@@ -1,5 +1,6 @@
 package com.example.demo.advice;
 
+import com.example.demo.advice.exception.ResourceAlreadyExistsException;
 import com.example.demo.advice.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,5 +22,21 @@ public class RestEntityExceptionHandler extends ResponseEntityExceptionHandler {
     String resourceNotFoundHandler(ResourceNotFoundException ex) {
         log.error(ex.getMessage());
         return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    String resourceAlreadyExistsHandler(ResourceAlreadyExistsException ex) {
+        log.error(ex.getMessage());
+        return ex.getMessage();
+    }
+
+    // last line of defence :)
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public void handleAll(Exception ex) {
+        log.error("Unhandled exception occurred", ex);
     }
 }
