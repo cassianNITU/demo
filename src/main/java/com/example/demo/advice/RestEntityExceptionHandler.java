@@ -1,6 +1,6 @@
 package com.example.demo.advice;
 
-import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.advice.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
