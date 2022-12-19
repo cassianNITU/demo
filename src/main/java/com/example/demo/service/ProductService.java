@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class ProductService {
 
     //getting a specific product by ID
     public Product getProductById(long id) {
-        return productRepository.findById(id).get();
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product", id));
     }
 
     //save or update a product - if the product exist it perform update else it creates a new one
@@ -33,6 +34,7 @@ public class ProductService {
 
     //delete a specific product by ID
     public void deleteProductById(long id) {
-        productRepository.deleteById(id);
+        Product product  = getProductById(id);
+        productRepository.deleteById(product.getId());
     }
 }
